@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Search Google Maps API</title>
+</head>
+<body style="background-color: #E0E4CC ;">
+    <div class="container p-5">
+        <div class="card p-3" >
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" class="form-control" id="search_input">
+                <input type="hidden" id="latitute_input">
+                <input type="hidden" id="longitute_input">
+            </div>
+            <div class="mt-5">
+                <p><b>Latitute</b><span id="latitude_view"></span></p>
+                <p><b>Longitute</b><span id="longitude_view"></span></p>
+            </div>
+        </div>
+    </div>
+
+ 
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAPrDvoyuPUvs8rS6OBJ263CnezlEOrZx0"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            autocomplete = new google.maps.places.Autocomplete((document.getElementById('search_input')), {
+                types: ['geocode']
+            });
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var near_place = autocomplete.getPlace();
+                document.getElementById('latitude_input').value =  near_place.geometry.location.lat();
+                document.getElementById('longitude_input').value =  near_place.geometry.location.lng();
+                
+                document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+                document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();                
+            });
+        });
+
+        $(document).on('change', "#"+search_input, function () {
+            document.getElementById('latitude_input').value = '';
+            document.getElementById('longitude_input').value = '';
+            document.getElementById('latitude_view').innerHTML = '';
+            document.getElementById('longitude_input').innerHTML = '';
+        });
+    </script>
+</body>
+</html>
